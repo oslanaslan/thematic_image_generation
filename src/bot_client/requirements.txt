@@ -1,0 +1,4 @@
+pyTelegramBotAPI>=0.3.0
+PyDrive
+oauth2client
+pika

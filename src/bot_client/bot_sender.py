@@ -15,8 +15,7 @@ import pika
 TOKEN = os.environ["TELEBOT_TOKEN"]
 QUEUE_URL = os.environ["QUEUE_URL"]
 QUEUE_NAME_bot2back = os.environ["QUEUE_NAME_FRONT"]
-QUEUE_NAME_back2bot = os.environ["QUEUE_NAME_BACK"]
-APP_NAME = "Telebot-2"
+APP_NAME = "Telebot-Sender"
 
 ## Globals variables
 # Logger
@@ -33,8 +32,7 @@ params = pika.URLParameters(QUEUE_URL)
 pika_connection = pika.BlockingConnection(params)
 channel = pika_connection.channel()
 channel.queue_declare(queue=QUEUE_NAME_bot2back)
-channel.queue_declare(queue=QUEUE_NAME_back2bot)
-logger.info("Queues '%s' and '%s' declared", QUEUE_NAME_bot2back, QUEUE_NAME_back2bot)
+logger.info("Queue '%s' declared", QUEUE_NAME_bot2back)
 
 # Utils
 def create_message(meta: Dict, image: bytes) -> bytes:
@@ -73,18 +71,6 @@ def telegram_listener(messages: List[Message]):
             body=data
         )
 
-# # Backend listener
-# def queue_listener(ch, method, properties, body: bytes):
-#     """
-#     When a new message arrives from Backend
-#     """
-#     logger.info("Got message from back")
-#     meta, image = decode_message(body)
-#     logger.info(json.dumps(meta))
-#     bot.send_photo(meta["chat"]["id"], image)
-#     if "message" in meta:
-#         bot.send_message(chat_id=meta["chat"]["id"], text=meta["message"])
-
 # Main
 def main():
     """
@@ -93,18 +79,6 @@ def main():
     bot.set_update_listener(telegram_listener)
     logger.info("Starting cycle")
     bot.polling()
-
-    # params = pika.URLParameters(QUEUE_URL)
-    # pika_connection = pika.BlockingConnection(params)
-    # channel = pika_connection.channel()
-    # channel.queue_declare(queue=QUEUE_NAME_back2bot)
-
-    # channel.basic_consume(
-    #     queue=QUEUE_NAME_back2bot,
-    #     on_message_callback=queue_listener,
-    #     auto_ack=True
-    # )
-    # channel.start_consuming()
 
 if __name__ == "__main__":
     main()

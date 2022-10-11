@@ -1,1 +1,2 @@
-worker: python bot.py
+sender: python bot_sender.py
+receiver: python bot_receiver.py

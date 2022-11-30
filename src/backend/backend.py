@@ -16,7 +16,8 @@ from dotenv import find_dotenv, load_dotenv
 
 from logger import GrafanaLogger as Logger
 sys.path.insert(1, '../model')
-from model import Model
+# from model import Model
+from train_free_generator import TrainFreeGenerator
 from saver import Drive
 
 # TEST PROMPT
@@ -111,7 +112,7 @@ class Application:
             self.logger.info("Loading model")
             # TODO load model from path
             # self.model = dill.load(self.model_path)
-            self.model = Model()
+            self.model = TrainFreeGenerator()
         except Exception as e:
             self.logger.error("Failed to load model", e)
             sys.exit(0)

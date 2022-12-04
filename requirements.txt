@@ -27,6 +27,7 @@ certifi==2022.9.24
 cffi==1.15.1
 charset-normalizer==2.1.1
 click==8.1.3
+cmapy==0.6.6
 commonmark==0.9.1
 confection==0.0.2
 contourpy==1.0.5
@@ -36,7 +37,8 @@ cymem==2.0.6
 debugpy==1.6.3
 decorator==5.1.1
 defusedxml==0.7.1
-diffusers==0.2.3
+diffusers==0.3.0
+diffusers-interpret==0.5.0
 dill==0.3.5.1
 einops==0.4.1
 entrypoints==0.4
@@ -155,6 +157,7 @@ PyNaCl==1.5.0
 pyparsing==3.0.9
 pyrsistent==0.18.1
 pyspark==3.3.1
+pyTelegramBotAPI==4.8.0
 python-dateutil==2.8.2
 python-dotenv==0.21.0
 python-logging-loki==0.3.1
@@ -193,6 +196,7 @@ starlette==0.20.4
 streamlit==1.13.0
 -e git+https://github.com/CompVis/taming-transformers.git@24268930bf1dce879235a7fddd0b2355b84d7ea6#egg=taming_transformers
 tb-nightly==2.11.0a20221026
+telebot==0.0.4
 tensorboard==2.10.1
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1

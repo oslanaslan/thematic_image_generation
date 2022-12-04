@@ -1,15 +1,20 @@
 """
     MADE Image Generation Telegram Bot
 """
-from typing import List, Dict, Tuple
 import os
 import json
 import struct
-import pika
+from typing import List, Dict, Tuple
+
 import logging
 import telebot
-from telebot.types import Message
 import pika
+from telebot.types import Message
+from dotenv import find_dotenv, load_dotenv
+
+
+# Load env. variables
+load_dotenv(find_dotenv())
 
 ## Constants
 TOKEN = os.environ["TELEBOT_TOKEN"]

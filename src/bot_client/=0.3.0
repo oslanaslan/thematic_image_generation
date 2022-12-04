@@ -1,0 +1,18 @@
+Collecting pyTelegramBotAPI
+  Downloading pyTelegramBotAPI-4.8.0.tar.gz (217 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 217.2/217.2 KB 1.3 MB/s eta 0:00:00
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: requests in /home/aslan/Documents/Github/thematic_image_generation/venv/lib/python3.10/site-packages (from pyTelegramBotAPI) (2.28.1)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /home/aslan/Documents/Github/thematic_image_generation/venv/lib/python3.10/site-packages (from requests->pyTelegramBotAPI) (1.26.12)
+Requirement already satisfied: certifi>=2017.4.17 in /home/aslan/Documents/Github/thematic_image_generation/venv/lib/python3.10/site-packages (from requests->pyTelegramBotAPI) (2022.9.24)
+Requirement already satisfied: charset-normalizer<3,>=2 in /home/aslan/Documents/Github/thematic_image_generation/venv/lib/python3.10/site-packages (from requests->pyTelegramBotAPI) (2.1.1)
+Requirement already satisfied: idna<4,>=2.5 in /home/aslan/Documents/Github/thematic_image_generation/venv/lib/python3.10/site-packages (from requests->pyTelegramBotAPI) (3.4)
+Building wheels for collected packages: pyTelegramBotAPI
+  Building wheel for pyTelegramBotAPI (setup.py): started
+  Building wheel for pyTelegramBotAPI (setup.py): finished with status 'done'
+  Created wheel for pyTelegramBotAPI: filename=pyTelegramBotAPI-4.8.0-py3-none-any.whl size=200126 sha256=4f86c672d0fcc699c0cbb971814c525ab7466ceb8bbd92dadb80cbecf94534ee
+  Stored in directory: /home/aslan/.cache/pip/wheels/22/9f/7c/9997bc8ebf4810221e75b1b47eefeaaa7d2e08fb30b3b6b8b6
+Successfully built pyTelegramBotAPI
+Installing collected packages: pyTelegramBotAPI
+Successfully installed pyTelegramBotAPI-4.8.0

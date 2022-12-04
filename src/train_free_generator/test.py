@@ -3,7 +3,7 @@ from PIL import Image
 from io import BytesIO
 from dotenv import load_dotenv, find_dotenv
 
-from generator import TrainFreeGenerator
+from generator import ImgGenerator
 
 
 # IMG_SIZE = (448, 448)
@@ -16,8 +16,8 @@ def run_test_inf():
     init_image = Image.open(BytesIO(response.content)).convert("RGB")
     init_image = init_image.resize(IMG_SIZE)
 
-    model = TrainFreeGenerator()
-    res_img = model.predict(prompt, init_image)
+    model = ImgGenerator()
+    # res_img = model.predict(prompt, init_image)
 
     return res_img
 

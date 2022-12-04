@@ -12,13 +12,15 @@ from typing import Dict, Tuple
 import pika
 import dill
 import uuid
+from PIL import Image
 from dotenv import find_dotenv, load_dotenv
 
-from logger import GrafanaLogger as Logger
-sys.path.insert(1, '../model')
-# from model import Model
-from train_free_generator import TrainFreeGenerator
-from saver import Drive
+# sys.path.insert(1, '../train_free_generator')
+
+from .logger import GrafanaLogger as Logger
+from .saver import Drive
+from ..train_free_generator.generator import TrainFreeGenerator, ImgGenerator
+# from ..model.echo_model import EchoModel
 
 # TEST PROMPT
 DEFAULT_PROMPT = "The streets of old cairo at the time of the pharaohs, intricate, elegant, volumetric lighting, digital painting, highly detailed, artstation, sharp focus, illustration, concept art, ruan jia, steve mccurry"
@@ -80,6 +82,7 @@ class Application:
             meta, image = decode_message(body)
             self.logger.info(f"[x] Received message {msg_uid}: {meta}")
             self.saver.save(f"input_{msg_uid}", str(meta), image)
+            image = Image.open(io.BytesIO(image))
             self.logger.debug("Start inference")
 
             if 'caption' in meta:
@@ -110,9 +113,9 @@ class Application:
             
         try:
             self.logger.info("Loading model")
-            # TODO load model from path
-            # self.model = dill.load(self.model_path)
-            self.model = TrainFreeGenerator()
+            # self.model = TrainFreeGenerator()
+            # self.model = EchoModel()
+            self.model = ImgGenerator()
         except Exception as e:
             self.logger.error("Failed to load model", e)
             sys.exit(0)

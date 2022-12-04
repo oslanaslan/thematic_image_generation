@@ -1,14 +1,19 @@
 """
     MADE Image Generation Telegram Bot
 """
-from typing import List, Dict, Tuple
 import os
 import json
 import struct
-import pika
+from typing import List, Dict, Tuple
+
 import logging
 import telebot
 import pika
+from dotenv import load_dotenv, find_dotenv
+
+
+# Load env. variables
+load_dotenv(find_dotenv())
 
 ## Constants
 TOKEN = os.environ["TELEBOT_TOKEN"]
@@ -24,7 +29,7 @@ logger = logging.getLogger(APP_NAME)
 
 # Telegram
 bot = telebot.TeleBot(TOKEN)
-logger.info("Telegram bot created (%s)", bot.get_me().full_name)
+logger.info("Telegram bot created")
 
 # Queue
 params = pika.URLParameters(QUEUE_URL)

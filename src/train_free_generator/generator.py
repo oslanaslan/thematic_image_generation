@@ -13,8 +13,8 @@ BASE_SCALE = 7.5
 MODEL_NAME = "CompVis/stable-diffusion-v1-4"
 IMG_SIZE = (448, 448)
 SEED = 42
-# IMG_DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-IMG_DEVICE = 'gpu'
+IMG_DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+# IMG_DEVICE = 'gpu'
 DESC_DEVICE = 'cpu'
 STYLES_LST = [
     "painting in the style of Banksy of",

@@ -29,7 +29,7 @@ DEFAULT_PROMPT = "The streets of old cairo at the time of the pharaohs, intricat
 class Application:
     """
     Connect to queue, get data, run prediction, send results
-    
+
     """
 
     def __init__(self, config) -> None:
@@ -110,12 +110,12 @@ class Application:
                 routing_key=self.output_queue_name,
                 body=resp_data
             )
-            
+
         try:
             self.logger.info("Loading model")
-            # self.model = TrainFreeGenerator()
+            self.model = TrainFreeGenerator()
             # self.model = EchoModel()
-            self.model = ImgGenerator()
+            # self.model = ImgGenerator()
         except Exception as e:
             self.logger.error("Failed to load model", e)
             sys.exit(0)

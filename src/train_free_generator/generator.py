@@ -1,12 +1,13 @@
 import os
-
+import logging
 import torch
 from PIL import Image
 from diffusers_interpret import StableDiffusionImg2ImgPipelineExplainer
 from PIL import Image
 from diffusers import StableDiffusionImg2ImgPipeline
-# from lavis.models import load_model_and_preprocess
+from lavis.models import load_model_and_preprocess
 
+logger = logging.getLogger("Generator-3")
 
 BASE_STRENGTH = 0.7
 BASE_SCALE = 7.5
@@ -14,8 +15,8 @@ MODEL_NAME = "CompVis/stable-diffusion-v1-4"
 IMG_SIZE = (448, 448)
 SEED = 42
 IMG_DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-# IMG_DEVICE = 'gpu'
-DESC_DEVICE = 'cpu'
+IMG_DEVICE = 'cuda'
+DESC_DEVICE = 'cuda'
 STYLES_LST = [
     "painting in the style of Banksy of",
     "painting in the style of Robert Delaunay of",
@@ -24,7 +25,7 @@ STYLES_LST = [
 ]
 
 # if torch.cude.is_available():
-#     IMAGE_GEN_DEVICE = "cuda" 
+#     IMAGE_GEN_DEVICE = "cuda"
 # else:
 #     raise ValueError("cuda is not available")
 
@@ -37,7 +38,7 @@ class ImgGenerator:
     def __init__(self) -> None:
         self.device = IMG_DEVICE
         pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
-            MODEL_NAME, 
+            MODEL_NAME,
             use_auth_token=os.environ["DIFFUSERS_ACCESS_TOKEN"],
             revision='fp16' if self.device == 'cuda' else None,
             torch_dtype=torch.float16 if self.device == 'cuda' else None,
@@ -48,15 +49,18 @@ class ImgGenerator:
 
     def predict(self, prompt: str, image: Image) -> Image:
         """ Generate image """
-        # with torch.autocast('cuda'):
-        output = self.explainer(
-            prompt=prompt,
-            init_image=image.resize(IMG_SIZE),
-            strength=BASE_STRENGTH,
-            guidance_scale=BASE_SCALE,
-            generator=self.generator,
-            get_images_for_all_inference_steps=False
-        )
+        with torch.autocast('cuda'):
+            print("Start generation")
+            print("Device", self.device)
+            output = self.explainer(
+                prompt=prompt,
+                init_image=image.resize(IMG_SIZE),
+                strength=BASE_STRENGTH,
+                guidance_scale=BASE_SCALE,
+                generator=self.generator,
+                get_images_for_all_inference_steps=False
+            )
+            print("Returned from generation")
 
         return output.image
 

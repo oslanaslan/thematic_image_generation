@@ -1,11 +1,13 @@
 import os
-
+import logging
 import torch
 from  torch.cuda.amp import autocast
 from PIL import Image
 from diffusers import StableDiffusionImg2ImgPipeline, DPMSolverMultistepScheduler
 # from lavis.models import load_model_and_preprocess
 
+
+logger = logging.getLogger("Generator-3")
 
 BASE_STRENGTH = 0.35
 BASE_SCALE = 10

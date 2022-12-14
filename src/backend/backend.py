@@ -91,26 +91,27 @@ class Application:
                 # TODO: think of default prompt
                 prompt = DEFAULT_PROMPT
 
-            res_image = self.model.predict(prompt, image)
-            # res_image = image
+            res_images_lst = self.model.predict(prompt, image)
             self.logger.debug("End inference")
 
-            with io.BytesIO() as f:
-                res_image.save(f, format="PNG")
-                res_image = f.getvalue()
+            for res_image in res_images_lst:
+                with io.BytesIO() as f:
+                    res_image.save(f, format="PNG")
+                    res_image = f.getvalue()
 
-            # TODO add meta
-            meta['message'] = 'Готово'
-            self.saver.save(f"output_{msg_uid}", str(meta), res_image)
-            self.logger.debug("Create response")
-            resp_data = create_message(meta, res_image)
-            self.logger.debug("Send response")
-            channel.basic_publish(
-                exchange='',
-                routing_key=self.output_queue_name,
-                body=resp_data
-            )
+                # TODO add meta
+                meta['message'] = ''
+                self.saver.save(f"output_{msg_uid}", str(meta), res_image)
+                self.logger.debug("Create response")
+                resp_data = create_message(meta, res_image)
+                self.logger.debug("Send response")
+                channel.basic_publish(
+                    exchange='',
+                    routing_key=self.output_queue_name,
+                    body=resp_data
+                )
             
+        # Load model
         try:
             self.logger.info("Loading model")
             # self.model = TrainFreeGenerator()

@@ -1,33 +1,25 @@
 import os
 
 import torch
+from  torch.cuda.amp import autocast
 from PIL import Image
-from diffusers_interpret import StableDiffusionImg2ImgPipelineExplainer
-from PIL import Image
-from diffusers import StableDiffusionImg2ImgPipeline
+from diffusers import StableDiffusionImg2ImgPipeline, DPMSolverMultistepScheduler
 # from lavis.models import load_model_and_preprocess
 
 
-BASE_STRENGTH = 0.7
-BASE_SCALE = 7.5
-MODEL_NAME = "CompVis/stable-diffusion-v1-4"
-IMG_SIZE = (448, 448)
+BASE_STRENGTH = 0.35
+BASE_SCALE = 10
+MODEL_NAME = "stabilityai/stable-diffusion-2-1-base"
+IMG_SIZE = (512, 512)
 SEED = 42
-IMG_DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-# IMG_DEVICE = 'gpu'
+IMG_DEVICE = 'cuda'
 DESC_DEVICE = 'cpu'
 STYLES_LST = [
-    "painting in the style of Banksy of",
-    "painting in the style of Robert Delaunay of",
-    "painting in the style of Vincent Van Gogh of",
-    "painting in the style of Malevich of"
+    "painting in the style of Banksy of ",
+    "painting in the style of Robert Delaunay of ",
+    "painting in the style of Vincent Van Gogh of ",
+    "painting in the style of Malevich of "
 ]
-
-# if torch.cude.is_available():
-#     IMAGE_GEN_DEVICE = "cuda" 
-# else:
-#     raise ValueError("cuda is not available")
-
 
 
 class ImgGenerator:
@@ -36,27 +28,36 @@ class ImgGenerator:
     """
     def __init__(self) -> None:
         self.device = IMG_DEVICE
-        pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
-            MODEL_NAME, 
+        scheduler = DPMSolverMultistepScheduler.from_pretrained(MODEL_NAME, subfolder="scheduler")
+        self.pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
+            MODEL_NAME,
             use_auth_token=os.environ["DIFFUSERS_ACCESS_TOKEN"],
-            revision='fp16' if self.device == 'cuda' else None,
-            torch_dtype=torch.float16 if self.device == 'cuda' else None,
+            scheduler=scheduler,
+            safety_checker=None,
+            torch_dtype=torch.float16,
+            revision="fp16",
         )
-        pipe.to(self.device).enable_attention_slicing()
-        self.explainer = StableDiffusionImg2ImgPipelineExplainer(pipe, gradient_checkpointing=True)
-        self.generator = torch.Generator(self.device).manual_seed(SEED)
+        self.pipe.to(IMG_DEVICE)
+        self.pipe.enable_attention_slicing()
+        # pipe.enable_vae_slicing()
+        # pipe.enable_xformers_memory_efficient_attention()
+        self.pipe.enable_sequential_cpu_offload()
 
     def predict(self, prompt: str, image: Image) -> Image:
         """ Generate image """
-        # with torch.autocast('cuda'):
-        output = self.explainer(
-            prompt=prompt,
-            init_image=image.resize(IMG_SIZE),
-            strength=BASE_STRENGTH,
-            guidance_scale=BASE_SCALE,
-            generator=self.generator,
-            get_images_for_all_inference_steps=False
-        )
+        torch.cuda.empty_cache()
+
+        with autocast(), torch.inference_mode():
+            output = self.pipe(
+                prompt=prompt, 
+                image=image, 
+                strength=0.25,
+                # negative_prompt=negative_prompt,
+                num_images_per_prompt=4,
+                num_inference_steps=100,
+                guidance_scale=10,
+                generator=None,
+            ).images
 
         return output.image
 

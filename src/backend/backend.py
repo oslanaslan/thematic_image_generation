@@ -100,11 +100,12 @@ class Application:
                     res_image = f.getvalue()
 
                 # TODO add meta
-                meta['message'] = ''
+                res_meta = {}
+                res_meta["chat"] = meta["chat"]
                 self.saver.save(f"output_{msg_uid}", str(meta), res_image)
                 self.logger.debug("Create response")
                 resp_data = create_message(meta, res_image)
-                self.logger.debug("Send response")
+                self.logger.debug(f"Send response with message {meta}")
                 channel.basic_publish(
                     exchange='',
                     routing_key=self.output_queue_name,

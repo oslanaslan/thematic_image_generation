@@ -90,3 +90,7 @@ target/
 .mypy_cache/
 .venv
 *.png
+
+# Github libs
+LAVIS/
+new_venv/

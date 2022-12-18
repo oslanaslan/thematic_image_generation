@@ -4,7 +4,7 @@ import torch
 from  torch.cuda.amp import autocast
 from PIL import Image
 from diffusers import StableDiffusionImg2ImgPipeline, DPMSolverMultistepScheduler
-# from lavis.models import load_model_and_preprocess
+from lavis.models import load_model_and_preprocess
 
 
 logger = logging.getLogger("Generator-3")
@@ -55,13 +55,13 @@ class ImgGenerator:
                 image=image, 
                 strength=0.25,
                 # negative_prompt=negative_prompt,
-                num_images_per_prompt=4,
+                num_images_per_prompt=1,
                 num_inference_steps=100,
                 guidance_scale=10,
                 generator=None,
             ).images
 
-        return output.image
+        return output
 
 
 class DescGenerator:
@@ -96,10 +96,12 @@ class TrainFreeGenerator:
 
     def predict(self, msg: str, image: Image) -> Image:
         img_desc = self.descriptor.predict(image)
+        image = image.resize(IMG_SIZE)
         res_imgs_lst = []
 
         for style in STYLES_LST:
             prompt = ' '.join([style, img_desc])
-            res_imgs_lst.append(self.generator.predict(prompt, image))
+            res_imgs_lst += self.generator.predict(prompt, image)
+            torch.cuda.empty_cache()
 
         return res_imgs_lst

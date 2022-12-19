@@ -1,0 +1,15 @@
+accelerate
+bitsandbytes
+deepface
+diffusers
+GPUtil
+numba
+numpy
+opencv_python
+Pillow
+torch
+torchvision
+tqdm
+transformers
+opencv-python
+ipython

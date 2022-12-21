@@ -1,11 +1,25 @@
 MADE Thematic Image Generation Project
 ==============================
 
+Цель проекта - генерация стилизованных изображений на основе изображений, полученных от пользователя.
+В результате исследований было разработано решение, состоящее из двух модулей
+
+- Модуль генерации изображений без обучения кастомной модели
+- Модуль обучения кастомной модели на основе изображений, полученных от пользователя
+
+Модуль генерации без обучения не требует большого количества ресурсов для запуска, но результаты могут отличаться от того, что было подано на вход.
+Модуль обучения кастомной модели лучше улавливает особенности черт лица пользователя, за счет чего позволяет генерировать более качественные изображения, но он также гораздо более требователен к вычислительным ресурсам.
+
+Примеры сгенерированных изображений можно найти [тут](https://drive.google.com/drive/folders/11vkVXGQZGvtveEtN1_fw1C-u7xFyOa4n)
+
+Project Organization
+------------
+
 Project organization based on [cookiecutter data science project template](https://drivendata.github.io/cookiecutter-data-science/).
 All changes to this project are documented in the changelog.md file. Changelog format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 This project adheres to [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
-Project Organization
+Project Structure
 ------------
 
     ├── LICENSE
@@ -35,21 +49,6 @@ Project Organization
     │
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     └── src                <- Source code for use in this project.
-        ├── __init__.py    <- Makes src a Python module
-        │
-        ├── data           <- Scripts to download or generate data
-        │   └── make_dataset.py
-        │
-        ├── features       <- Scripts to turn raw data into features for modeling
-        │   └── build_features.py
-        │
-        ├── models         <- Scripts to train models and then use trained models to make
-        │   │                 predictions
-        │   ├── predict_model.py
-        │   └── train_model.py
-        │
-        └── visualization  <- Scripts to create exploratory and results oriented visualizations
-            └── visualize.py
 
 
 --------

@@ -1,7 +1,7 @@
 import os
 import logging
 import torch
-from  torch.cuda.amp import autocast
+from torch.cuda.amp import autocast
 from PIL import Image
 from diffusers import StableDiffusionImg2ImgPipeline, DPMSolverMultistepScheduler
 from lavis.models import load_model_and_preprocess
@@ -9,7 +9,8 @@ from lavis.models import load_model_and_preprocess
 
 logger = logging.getLogger("Generator-3")
 
-BASE_STRENGTH = 0.35
+# BASE_STRENGTH = 0.35
+BASE_STRENGTH = 0.7
 BASE_SCALE = 10
 MODEL_NAME = "stabilityai/stable-diffusion-2-1-base"
 IMG_SIZE = (512, 512)
@@ -53,11 +54,11 @@ class ImgGenerator:
             output = self.pipe(
                 prompt=prompt, 
                 image=image, 
-                strength=0.25,
+                strength=BASE_STRENGTH,
                 # negative_prompt=negative_prompt,
                 num_images_per_prompt=1,
                 num_inference_steps=100,
-                guidance_scale=10,
+                guidance_scale=BASE_SCALE,
                 generator=None,
             ).images
 

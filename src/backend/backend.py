@@ -81,7 +81,7 @@ class Application:
             msg_uid = uuid.uuid4()
             meta, image = decode_message(body)
             self.logger.info(f"[x] Received message {msg_uid}: {meta}")
-            self.saver.save(f"input_{msg_uid}", str(meta), image)
+            self.saver.save(f"{msg_uid}_input", str(meta), image)
             image = Image.open(io.BytesIO(image))
             self.logger.debug("Start inference")
 
@@ -94,7 +94,7 @@ class Application:
             res_images_lst = self.model.predict(prompt, image)
             self.logger.debug("End inference")
 
-            for res_image in res_images_lst:
+            for i, res_image in enumerate(res_images_lst):
                 with io.BytesIO() as f:
                     res_image.save(f, format="PNG")
                     res_image = f.getvalue()
@@ -102,7 +102,7 @@ class Application:
                 # TODO add meta
                 res_meta = {}
                 res_meta["chat"] = meta["chat"]
-                self.saver.save(f"output_{msg_uid}", str(meta), res_image)
+                self.saver.save(f"{msg_uid}_output_{i}", str(meta), res_image)
                 self.logger.debug("Create response")
                 resp_data = create_message(meta, res_image)
                 self.logger.debug(f"Send response with message {meta}")

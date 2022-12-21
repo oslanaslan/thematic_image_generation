@@ -20,8 +20,8 @@ class Drive:
         pass
 
     def save(self, name: str, msg: str, data: bytes) -> None:
-        # filename = os.path.join(OUTPUT_FOLDER, name + '.png')
-        filename = name + '.png'
+        filename = os.path.join(OUTPUT_FOLDER, name + '.png')
+        # filename = name + '.png'
 
         with open(filename, 'wb') as f:
             f.write(data)

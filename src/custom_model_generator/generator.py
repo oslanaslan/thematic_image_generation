@@ -7,8 +7,8 @@ from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
 from torch.cuda.amp import autocast
 from PIL import Image
 from basicsr.archs.rrdbnet_arch import RRDBNet
-
 from realesrgan import RealESRGANer
+
 from GFPGAN.gfpgan import GFPGANer
 
 

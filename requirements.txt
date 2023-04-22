@@ -22,7 +22,7 @@ pathy==0.6.2
 pexpect==4.8.0
 pickleshare==0.7.5
 pika==1.3.0
-Pillow==9.0.1
+Pillow>=9.2.0
 preshed==3.0.7
 py4j==0.10.9.5
 pyarrow==9.0.0
@@ -39,7 +39,7 @@ spacy-loggers==1.0.3
 tb-nightly==2.11.0a20221026
 toml==0.10.2
 toolz==0.12.0
-torch==1.12.1
+torch>=1.13.1
 torch-fidelity==0.3.0
 torchaudio==0.12.1
 torchmetrics==0.6.0

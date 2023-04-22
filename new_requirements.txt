@@ -192,7 +192,7 @@ watchdog==2.2.0
 wcwidth==0.2.5
 webdataset==0.2.31
 websockets==10.4
-Werkzeug==2.2.2
+Werkzeug==2.2.3
 widgetsnbextension==4.0.4
 xformers==0.0.12
 yarl==1.8.2
